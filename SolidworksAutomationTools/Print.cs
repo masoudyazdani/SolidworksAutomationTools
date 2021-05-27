@@ -1,6 +1,7 @@
 ﻿using EPDM.Interop.epdm;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using iText.Kernel.Pdf;
+using iText.Kernel.Utils;
+using iText.Layout;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -63,43 +64,34 @@ namespace SWPrintAndMerge
         private bool MergePDFs(IEnumerable fileNames, string targetPdf)
         {
             bool merged = true;
-            using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
+            PdfDocument document = new PdfDocument(new PdfWriter(targetPdf));
+            PdfMerger merger = new PdfMerger(document);
+            try
             {
-                Document document = new Document();
-                PdfCopy pdf = new PdfCopy(document, stream);
-                PdfReader reader = null;
-                try
+                foreach (string file in fileNames)
                 {
-                    document.Open();
-                    foreach (string file in fileNames)
-                    {
-                        reader = new PdfReader(file);
-                        pdf.AddDocument(reader);
-                        reader.Close();
-                    }
+                    PdfDocument doc = new PdfDocument(new PdfReader(file));
+                    merger.Merge(doc, 1, doc.GetNumberOfPages());
+                    doc.Close();
                 }
-                catch (Exception)
+            }
+            catch (Exception)
+            {
+                merged = false;
+            }
+            finally
+            {
+                if (document != null)
                 {
-                    merged = false;
-                    if (reader != null)
+                    try
                     {
-                        reader.Close();
+                        document.Close();
                     }
-                }
-                finally
-                {
-                    if (document != null)
+                    catch (IOException)
                     {
-                        try
-                        {
-                            document.Close();
-                        }
-                        catch (IOException)
-                        {
-                            Console.WriteLine("There is no file to bundle.");
-                        }
+                        Console.WriteLine("There is no file to bundle.");
+                    }
 
-                    }
                 }
             }
             return merged;

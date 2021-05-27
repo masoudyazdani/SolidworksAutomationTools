@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidworksAutomationTools", "SolidworksAutomationTools.csproj", "{0B875799-8A6B-4C27-B650-A939239183E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidworksAutomationTools", "SolidworksAutomationTools\SolidworksAutomationTools.csproj", "{F29B1409-A84C-4E14-9AF1-C06D164FAF40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B875799-8A6B-4C27-B650-A939239183E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B875799-8A6B-4C27-B650-A939239183E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B875799-8A6B-4C27-B650-A939239183E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B875799-8A6B-4C27-B650-A939239183E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29B1409-A84C-4E14-9AF1-C06D164FAF40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29B1409-A84C-4E14-9AF1-C06D164FAF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29B1409-A84C-4E14-9AF1-C06D164FAF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29B1409-A84C-4E14-9AF1-C06D164FAF40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

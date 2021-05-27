@@ -84,14 +84,14 @@ namespace SWPrintAndMerge
         {            
             TableAnnotation ann = (TableAnnotation)bomAssBOMTable;
             itemOrderMap.Add("", modelPath);
-            for (int i = 1; i < ann.RowCount; i++)
+            for (int i = 2; i < ann.RowCount; i++)
             {
-                if (!ann.Text[i, 3].Equals("-"))
+                if (!ann.Text[i, 5].Equals("-"))
                 {
                     string itemNo = ann.Text[i, 0];
-                    string fileName = ann.Text[i, 1].Trim();
-                    string filePath = (ann.Text[i, 5].Trim() + ann.Text[i, 4].Trim()).ToLower();
-                    int qty = int.Parse(ann.Text[i, 3]);
+                    string filePath = (ann.Text[i, 6].Trim() + ann.Text[i, 7].Trim()).ToLower();
+                    string partNo = ann.Text[i, 1].Trim();
+                    int qty = int.Parse(ann.Text[i, 5]);
 
                     bool isAssembly = File.Exists(filePath + ".sldasm");
                     bool isPart = File.Exists(filePath + ".sldprt");
@@ -117,8 +117,8 @@ namespace SWPrintAndMerge
                     if (!pathItemMap.ContainsKey(filePath))
                     {
                         item = new Item();
-                        item.referenceQty.Add(ann.Text[i, 0].Trim(), qty);
-                        item.partNo = ann.Text[i, 1].Trim();
+                        item.referenceQty.Add(itemNo, qty);
+                        item.partNo = partNo ;
                         item.path = filePath;
                         item.totalQty = qty;
                         pathItemMap.Add(filePath, item);
@@ -126,7 +126,7 @@ namespace SWPrintAndMerge
                     else
                     {
                         item = pathItemMap[filePath];
-                        item.referenceQty.Add(ann.Text[i, 0].Trim(), int.Parse(ann.Text[i, 3]));
+                        item.referenceQty.Add(itemNo,qty);
                         item.totalQty += qty;
                     }
 
