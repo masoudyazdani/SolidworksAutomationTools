@@ -13,12 +13,10 @@ namespace SWPrintAndMerge
         public string path;
 
         public IDictionary<string, int> referenceQty; // item no -> qty
-        public HashSet<string> usedIn;
 
         public Item()
         {
             referenceQty = new Dictionary<string, int>();
-            usedIn = new HashSet<string>();
         }
 
         public bool isAssembly()

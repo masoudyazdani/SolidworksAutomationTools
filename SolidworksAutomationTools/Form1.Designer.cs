@@ -35,7 +35,7 @@
             this.bomAssemblyTxt = new System.Windows.Forms.TextBox();
             this.bomAssemblySelect = new System.Windows.Forms.Button();
             this.printBtn = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.printChkbox = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.ignorePrinterFileChkbox = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
@@ -50,16 +50,17 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.treeUsagelbl = new System.Windows.Forms.Label();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.bundlePDFsChkbox = new System.Windows.Forms.CheckBox();
             this.generateBOMChkbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // selectMainAssembly
             // 
-            this.selectMainAssembly.Location = new System.Drawing.Point(486, 15);
+            this.selectMainAssembly.Location = new System.Drawing.Point(972, 29);
+            this.selectMainAssembly.Margin = new System.Windows.Forms.Padding(6);
             this.selectMainAssembly.Name = "selectMainAssembly";
-            this.selectMainAssembly.Size = new System.Drawing.Size(155, 50);
+            this.selectMainAssembly.Size = new System.Drawing.Size(310, 96);
             this.selectMainAssembly.TabIndex = 0;
             this.selectMainAssembly.Text = "Select Main Assembly";
             this.selectMainAssembly.UseVisualStyleBackColor = true;
@@ -68,42 +69,47 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 34);
+            this.label1.Location = new System.Drawing.Point(24, 65);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.Size = new System.Drawing.Size(158, 25);
             this.label1.TabIndex = 1;
             this.label1.Text = "Main Assembly";
             // 
             // mainAssembly
             // 
-            this.mainAssembly.Location = new System.Drawing.Point(105, 30);
+            this.mainAssembly.Location = new System.Drawing.Point(210, 58);
+            this.mainAssembly.Margin = new System.Windows.Forms.Padding(6);
             this.mainAssembly.Name = "mainAssembly";
             this.mainAssembly.ReadOnly = true;
-            this.mainAssembly.Size = new System.Drawing.Size(362, 20);
+            this.mainAssembly.Size = new System.Drawing.Size(720, 31);
             this.mainAssembly.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 112);
+            this.label2.Location = new System.Drawing.Point(24, 215);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.Size = new System.Drawing.Size(159, 25);
             this.label2.TabIndex = 3;
             this.label2.Text = "BOM Assembly";
             // 
             // bomAssemblyTxt
             // 
-            this.bomAssemblyTxt.Location = new System.Drawing.Point(105, 108);
+            this.bomAssemblyTxt.Location = new System.Drawing.Point(210, 208);
+            this.bomAssemblyTxt.Margin = new System.Windows.Forms.Padding(6);
             this.bomAssemblyTxt.Name = "bomAssemblyTxt";
             this.bomAssemblyTxt.ReadOnly = true;
-            this.bomAssemblyTxt.Size = new System.Drawing.Size(362, 20);
+            this.bomAssemblyTxt.Size = new System.Drawing.Size(720, 31);
             this.bomAssemblyTxt.TabIndex = 5;
             // 
             // bomAssemblySelect
             // 
-            this.bomAssemblySelect.Location = new System.Drawing.Point(486, 93);
+            this.bomAssemblySelect.Location = new System.Drawing.Point(972, 179);
+            this.bomAssemblySelect.Margin = new System.Windows.Forms.Padding(6);
             this.bomAssemblySelect.Name = "bomAssemblySelect";
-            this.bomAssemblySelect.Size = new System.Drawing.Size(155, 50);
+            this.bomAssemblySelect.Size = new System.Drawing.Size(310, 96);
             this.bomAssemblySelect.TabIndex = 4;
             this.bomAssemblySelect.Text = "Select BOM Assembly";
             this.bomAssemblySelect.UseVisualStyleBackColor = true;
@@ -111,31 +117,34 @@
             // 
             // printBtn
             // 
-            this.printBtn.Location = new System.Drawing.Point(142, 436);
+            this.printBtn.Location = new System.Drawing.Point(284, 838);
+            this.printBtn.Margin = new System.Windows.Forms.Padding(6);
             this.printBtn.Name = "printBtn";
-            this.printBtn.Size = new System.Drawing.Size(155, 50);
+            this.printBtn.Size = new System.Drawing.Size(310, 96);
             this.printBtn.TabIndex = 6;
             this.printBtn.Text = "Run";
             this.printBtn.UseVisualStyleBackColor = true;
             this.printBtn.Click += new System.EventHandler(this.button1_Click);
             // 
-            // checkBox1
+            // printChkbox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(142, 242);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(47, 17);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Print";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.print_CheckedChanged);
+            this.printChkbox.AutoSize = true;
+            this.printChkbox.Location = new System.Drawing.Point(284, 465);
+            this.printChkbox.Margin = new System.Windows.Forms.Padding(6);
+            this.printChkbox.Name = "printChkbox";
+            this.printChkbox.Size = new System.Drawing.Size(88, 29);
+            this.printChkbox.TabIndex = 7;
+            this.printChkbox.Text = "Print";
+            this.printChkbox.UseVisualStyleBackColor = true;
+            this.printChkbox.CheckedChanged += new System.EventHandler(this.print_CheckedChanged);
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(142, 325);
+            this.checkBox2.Location = new System.Drawing.Point(284, 661);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(6);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(138, 17);
+            this.checkBox2.Size = new System.Drawing.Size(267, 29);
             this.checkBox2.TabIndex = 8;
             this.checkBox2.Text = "Add Where Used Table";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -144,9 +153,10 @@
             // 
             this.ignorePrinterFileChkbox.AutoSize = true;
             this.ignorePrinterFileChkbox.Enabled = false;
-            this.ignorePrinterFileChkbox.Location = new System.Drawing.Point(142, 265);
+            this.ignorePrinterFileChkbox.Location = new System.Drawing.Point(284, 510);
+            this.ignorePrinterFileChkbox.Margin = new System.Windows.Forms.Padding(6);
             this.ignorePrinterFileChkbox.Name = "ignorePrinterFileChkbox";
-            this.ignorePrinterFileChkbox.Size = new System.Drawing.Size(116, 17);
+            this.ignorePrinterFileChkbox.Size = new System.Drawing.Size(230, 29);
             this.ignorePrinterFileChkbox.TabIndex = 9;
             this.ignorePrinterFileChkbox.Text = "Ignore Printed Files";
             this.ignorePrinterFileChkbox.UseVisualStyleBackColor = true;
@@ -154,26 +164,29 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(142, 348);
+            this.checkBox4.Location = new System.Drawing.Point(284, 611);
+            this.checkBox4.Margin = new System.Windows.Forms.Padding(6);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(139, 17);
+            this.checkBox4.Size = new System.Drawing.Size(217, 29);
             this.checkBox4.TabIndex = 10;
-            this.checkBox4.Text = "Update Qty In Drawings";
+            this.checkBox4.Text = "Update Properties";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // outputFolder
             // 
-            this.outputFolder.Location = new System.Drawing.Point(105, 185);
+            this.outputFolder.Location = new System.Drawing.Point(210, 356);
+            this.outputFolder.Margin = new System.Windows.Forms.Padding(6);
             this.outputFolder.Name = "outputFolder";
             this.outputFolder.ReadOnly = true;
-            this.outputFolder.Size = new System.Drawing.Size(362, 20);
+            this.outputFolder.Size = new System.Drawing.Size(720, 31);
             this.outputFolder.TabIndex = 13;
             // 
             // outputFolderSelectBtn
             // 
-            this.outputFolderSelectBtn.Location = new System.Drawing.Point(486, 170);
+            this.outputFolderSelectBtn.Location = new System.Drawing.Point(972, 327);
+            this.outputFolderSelectBtn.Margin = new System.Windows.Forms.Padding(6);
             this.outputFolderSelectBtn.Name = "outputFolderSelectBtn";
-            this.outputFolderSelectBtn.Size = new System.Drawing.Size(155, 50);
+            this.outputFolderSelectBtn.Size = new System.Drawing.Size(310, 96);
             this.outputFolderSelectBtn.TabIndex = 12;
             this.outputFolderSelectBtn.Text = "Select Output Folder";
             this.outputFolderSelectBtn.UseVisualStyleBackColor = true;
@@ -182,36 +195,41 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 189);
+            this.label3.Location = new System.Drawing.Point(24, 363);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(143, 25);
             this.label3.TabIndex = 11;
             this.label3.Text = "Output Folder";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 222);
+            this.label4.Location = new System.Drawing.Point(40, 427);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 13);
+            this.label4.Size = new System.Drawing.Size(61, 25);
             this.label4.TabIndex = 16;
             this.label4.Text = "Vault";
             // 
             // vaultList
             // 
             this.vaultList.FormattingEnabled = true;
-            this.vaultList.Location = new System.Drawing.Point(20, 242);
+            this.vaultList.ItemHeight = 25;
+            this.vaultList.Location = new System.Drawing.Point(40, 465);
+            this.vaultList.Margin = new System.Windows.Forms.Padding(6);
             this.vaultList.Name = "vaultList";
-            this.vaultList.Size = new System.Drawing.Size(106, 199);
+            this.vaultList.Size = new System.Drawing.Size(208, 329);
             this.vaultList.TabIndex = 17;
             // 
             // includePictureChk
             // 
             this.includePictureChk.AutoSize = true;
             this.includePictureChk.Enabled = false;
-            this.includePictureChk.Location = new System.Drawing.Point(142, 398);
+            this.includePictureChk.Location = new System.Drawing.Point(284, 765);
+            this.includePictureChk.Margin = new System.Windows.Forms.Padding(6);
             this.includePictureChk.Name = "includePictureChk";
-            this.includePictureChk.Size = new System.Drawing.Size(129, 17);
+            this.includePictureChk.Size = new System.Drawing.Size(253, 29);
             this.includePictureChk.TabIndex = 19;
             this.includePictureChk.Text = "Include Parts Pictures";
             this.includePictureChk.UseVisualStyleBackColor = true;
@@ -225,59 +243,70 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
-            this.dataGridView1.Location = new System.Drawing.Point(315, 242);
+            this.dataGridView1.Location = new System.Drawing.Point(630, 465);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(326, 337);
+            this.dataGridView1.RowHeadersWidth = 82;
+            this.dataGridView1.Size = new System.Drawing.Size(652, 648);
             this.dataGridView1.TabIndex = 20;
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Item No.";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 10;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 200;
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.HeaderText = "Part No.";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 10;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 200;
             // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.HeaderText = "Qty";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 10;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 200;
             // 
             // treeUsagelbl
             // 
             this.treeUsagelbl.AutoSize = true;
             this.treeUsagelbl.ForeColor = System.Drawing.Color.Maroon;
-            this.treeUsagelbl.Location = new System.Drawing.Point(397, 585);
+            this.treeUsagelbl.Location = new System.Drawing.Point(794, 1125);
+            this.treeUsagelbl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.treeUsagelbl.Name = "treeUsagelbl";
-            this.treeUsagelbl.Size = new System.Drawing.Size(244, 13);
+            this.treeUsagelbl.Size = new System.Drawing.Size(489, 25);
             this.treeUsagelbl.TabIndex = 21;
             this.treeUsagelbl.Text = "\"tree.txt\" will be used for generating the BOM tree.";
             this.treeUsagelbl.Visible = false;
             // 
-            // checkBox5
+            // bundlePDFsChkbox
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Checked = true;
-            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox5.Location = new System.Drawing.Point(142, 288);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(119, 17);
-            this.checkBox5.TabIndex = 22;
-            this.checkBox5.Text = "Bundle Printed Files";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.bundlePDFsChkbox.AutoSize = true;
+            this.bundlePDFsChkbox.Checked = true;
+            this.bundlePDFsChkbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.bundlePDFsChkbox.Location = new System.Drawing.Point(284, 554);
+            this.bundlePDFsChkbox.Margin = new System.Windows.Forms.Padding(6);
+            this.bundlePDFsChkbox.Name = "bundlePDFsChkbox";
+            this.bundlePDFsChkbox.Size = new System.Drawing.Size(237, 29);
+            this.bundlePDFsChkbox.TabIndex = 22;
+            this.bundlePDFsChkbox.Text = "Bundle Printed Files";
+            this.bundlePDFsChkbox.UseVisualStyleBackColor = true;
             // 
             // generateBOMChkbox
             // 
             this.generateBOMChkbox.AutoSize = true;
-            this.generateBOMChkbox.Location = new System.Drawing.Point(142, 375);
+            this.generateBOMChkbox.Location = new System.Drawing.Point(284, 721);
+            this.generateBOMChkbox.Margin = new System.Windows.Forms.Padding(6);
             this.generateBOMChkbox.Name = "generateBOMChkbox";
-            this.generateBOMChkbox.Size = new System.Drawing.Size(97, 17);
+            this.generateBOMChkbox.Size = new System.Drawing.Size(187, 29);
             this.generateBOMChkbox.TabIndex = 23;
             this.generateBOMChkbox.Text = "Generate BOM";
             this.generateBOMChkbox.UseVisualStyleBackColor = true;
@@ -285,11 +314,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 610);
+            this.ClientSize = new System.Drawing.Size(1316, 1173);
             this.Controls.Add(this.generateBOMChkbox);
-            this.Controls.Add(this.checkBox5);
+            this.Controls.Add(this.bundlePDFsChkbox);
             this.Controls.Add(this.treeUsagelbl);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.includePictureChk);
@@ -301,7 +330,7 @@
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.ignorePrinterFileChkbox);
             this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.printChkbox);
             this.Controls.Add(this.printBtn);
             this.Controls.Add(this.bomAssemblyTxt);
             this.Controls.Add(this.bomAssemblySelect);
@@ -309,8 +338,8 @@
             this.Controls.Add(this.mainAssembly);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.selectMainAssembly);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Form1";
-            this.ShowInTaskbar = false;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -328,7 +357,7 @@
         private System.Windows.Forms.TextBox bomAssemblyTxt;
         private System.Windows.Forms.Button bomAssemblySelect;
         private System.Windows.Forms.Button printBtn;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox printChkbox;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox ignorePrinterFileChkbox;
         private System.Windows.Forms.CheckBox checkBox4;
@@ -343,7 +372,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Label treeUsagelbl;
-        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox bundlePDFsChkbox;
         private System.Windows.Forms.CheckBox generateBOMChkbox;
     }
 }

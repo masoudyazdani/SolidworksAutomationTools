@@ -1,11 +1,11 @@
 ﻿using EPDM.Interop.epdm;
 using iText.Kernel.Pdf;
 using iText.Kernel.Utils;
-using iText.Layout;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,9 +15,31 @@ namespace SWPrintAndMerge
 
     public partial class SolidworksFactory
     {
-        private String[] dwgName;
+        private ArrayList dwgName;
         public String[] dwgPath;
         public String[] dwgTreeName;
+        private void generateDWGNames() // It is Behpoo Tailored
+        {
+            dwgName = new ArrayList();
+            foreach (KeyValuePair<string, Item> kv in pathItemMap)
+            {
+                string d  = Path.GetFileNameWithoutExtension(kv.Key);
+                if (d.StartsWith("P"))
+                {
+                    d = "D" + d.Substring(1);
+                }
+                else if (d.StartsWith("W") || d.StartsWith("A") || d.StartsWith("F"))
+                {
+                    d = "D" + d;
+                }
+                else
+                {
+                    d = "";
+                }
+                dwgName.Add(d);
+            }
+        }
+
         private void TraverseFolder(IEdmFolder5 CurFolder)
         {
             try
@@ -40,7 +62,7 @@ namespace SWPrintAndMerge
 
                     if (dwgName.Contains(fileName2))
                     {
-                        dwgPath[Array.IndexOf(dwgName, fileName2)] = CurFolder.LocalPath + "\\" + fileName;
+                        dwgPath[dwgName.IndexOf(fileName2)] = CurFolder.LocalPath + "\\" + fileName;
                     }
                 }
 
@@ -61,7 +83,7 @@ namespace SWPrintAndMerge
             }
         }
 
-        private bool MergePDFs(IEnumerable fileNames, string targetPdf)
+        public bool MergePDFs(IEnumerable fileNames, string targetPdf)
         {
             bool merged = true;
             PdfDocument document = new PdfDocument(new PdfWriter(targetPdf));
@@ -97,7 +119,7 @@ namespace SWPrintAndMerge
             return merged;
         }
 
-        private ArrayList Print(string vaultName, string outputPath, bool ignore)
+        public ArrayList Print(string vaultName, string outputPath, bool ignore)
         {
             int errors = 0, warnings = 0;
             // Extract DWG files 
@@ -111,19 +133,18 @@ namespace SWPrintAndMerge
                 }
                 catch (System.Runtime.InteropServices.COMException)
                 {
-                    Console.WriteLine("Vault login error");
-                    Console.Read();
+                    MessageBox.Show("Vault login error");
                     return null;
                 }
             }
             ArrayList pdfs = new ArrayList();
             IEdmFolder5 root = vault.RootFolder;
-            //p.dwgName = p.dwgTreeName.Select(q => Path.GetFileNameWithoutExtension(q)).ToArray();
-            //p.dwgPath = new string[p.dwgName.Length];
+            generateDWGNames();
+            dwgPath = new string[dwgName.Count];
             TraverseFolder(root);
             Console.WriteLine("All available drawing has been extracted.");
             // Save To PDF
-            for (int i = 0; i < dwgName.Length; i++)
+            for (int i = 0; i < dwgName.Count; i++)
             {
                 String d = dwgPath[i];
                 if (d == null)
@@ -161,7 +182,7 @@ namespace SWPrintAndMerge
             return pdfs;
         }
 
-        static ArrayList ExtractPDFs(string path, string[] dwgName)
+        public static ArrayList ExtractPDFs(string path, string[] dwgName)
         {
             ArrayList pdfs = new ArrayList();
             for (int i = 0; i < dwgName.Length; i++)

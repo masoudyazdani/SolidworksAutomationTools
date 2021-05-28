@@ -1,14 +1,8 @@
 ﻿using EPDM.Interop.epdm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SWPrintAndMerge
@@ -16,7 +10,8 @@ namespace SWPrintAndMerge
     public partial class Form1 : Form
     {
         private SolidworksFactory swAppFactory;
-        private bool useExternalTreeFile = false ;
+        private bool useExternalTreeFile = false;
+        private bool treeIsGenerated = false;
         public Form1()
         {
             InitializeComponent();
@@ -59,6 +54,7 @@ namespace SWPrintAndMerge
             if (swAppFactory.isBOMGenerated())
             {
                 swAppFactory.reinitialize();
+                treeIsGenerated = false;
             }
         }
 
@@ -75,12 +71,14 @@ namespace SWPrintAndMerge
             if (swAppFactory.isBOMGenerated())
             {
                 swAppFactory.reinitialize();
+                treeIsGenerated = false;
             }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string vault = vaultList.Text;
             MethodInvoker myProcessStarter = new MethodInvoker(() =>
             {
                 if (!checkForOutputFolder() || !checkForBOMTables())
@@ -88,9 +86,10 @@ namespace SWPrintAndMerge
                     return;
                 }
                 // Extract References
-                if (!useExternalTreeFile)
+                if (!useExternalTreeFile && !treeIsGenerated)
                     swAppFactory.extractReferences(mainAssembly.Text);
 
+                treeIsGenerated = true;
                 dataGridView1.Invoke((MethodInvoker)delegate
                 {
                     foreach (KeyValuePair<string, string> kv in swAppFactory.itemOrderMap)
@@ -102,9 +101,27 @@ namespace SWPrintAndMerge
                         }
                     }
                 });
-                // Find All Drawing Files
+                // Print All Drawing Files Based on selected configuration
+                ArrayList printedFiles = null;
+                if (printChkbox.Checked)
+                {
+                    printedFiles = swAppFactory.Print(vault, outputFolder.Text, ignorePrinterFileChkbox.Checked);
+                }
 
+                if (bundlePDFsChkbox.Checked)
+                {
+                    if (printedFiles == null)
+                    {
+                        printedFiles = SolidworksFactory.ExtractPDFs(outputFolder.Text, swAppFactory.dwgTreeName);
+                    }
+                    swAppFactory.MergePDFs(printedFiles, outputFolder.Text + "\\Bundle.pdf");
+                }
 
+                // Generate BOMs
+                if (generateBOMChkbox.Checked)
+                {
+                    swAppFactory.saveExcel(outputFolder.Text + "\\bom.xlsx", includePictureChk.Checked);
+                }
             });
             myProcessStarter.BeginInvoke(null, null);
         }
@@ -129,13 +146,13 @@ namespace SWPrintAndMerge
                 reader.Close();
                 //              p.dwgTreeName = (string[])dwgNames.ToArray(typeof(string));
                 useExternalTreeFile = true;
-                
+
             }
             else
             {
                 useExternalTreeFile = false;
             }
-            treeUsagelbl.Visible = useExternalTreeFile; 
+            treeUsagelbl.Visible = useExternalTreeFile;
             // Populate Items in Solidworks Factory
 
         }
@@ -152,20 +169,6 @@ namespace SWPrintAndMerge
                 vaultList.Items.Add(v.mbsVaultName);
             }
             vaultList.SelectedIndex = 0;
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            if (!checkForBOMTables())
-                return;
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Excel File (*.xls)|*.xls";
-            fileDialog.Title = "Select Output File";
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                swAppFactory.saveExcel(fileDialog.FileName, includePictureChk.Checked);
-            }
 
         }
 
@@ -196,5 +199,6 @@ namespace SWPrintAndMerge
 
             }
         }
+
     }
 }
