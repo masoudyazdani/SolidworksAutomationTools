@@ -188,17 +188,24 @@ namespace SWPrintAndMerge
         {
             string fileExt = Path.GetExtension(path);
             ModelDoc2 swModel = null;
-            int err = 0;
-            int warn = 0;
             if (fileExt == ".sldprt")
                 swModel = swApp.OpenDoc(path, (int)swDocumentTypes_e.swDocPART);
             else if  (fileExt == ".sldasm")
                 swModel = swApp.OpenDoc(path, (int)swDocumentTypes_e.swDocASSEMBLY);
 
             CustomPropertyManager swCustPrpMgr = swModel.Extension.CustomPropertyManager[""];
-            swCustPrpMgr.Add3(QTY_PROPERTY_NAME, (int)swCustomInfoType_e.swCustomInfoNumber, pathItemMap[path].totalQty.ToString(), (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
-            swCustPrpMgr.Add3(MATERIAL_PROPERTY_NAME, (int)swCustomInfoType_e.swCustomInfoText, "\"SW-Material\"", (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
-            swCustPrpMgr.Add3(WEIGHT_PROPERTY_NAME, (int)swCustomInfoType_e.swCustomInfoText, "\"SW-Mass\"", (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+            swCustPrpMgr.Add3(QTY_PROPERTY_NAME, 
+                (int)swCustomInfoType_e.swCustomInfoNumber, 
+                pathItemMap[path].totalQty.ToString(), 
+                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+            swCustPrpMgr.Add3(MATERIAL_PROPERTY_NAME, 
+                (int)swCustomInfoType_e.swCustomInfoText, 
+                "\"SW-Material\"", 
+                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+            swCustPrpMgr.Add3(WEIGHT_PROPERTY_NAME, 
+                (int)swCustomInfoType_e.swCustomInfoText, 
+                "\"SW-Mass\"", 
+                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
             swApp.CloseDoc(path);
         }
 

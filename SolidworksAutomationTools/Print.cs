@@ -20,6 +20,9 @@ namespace SWPrintAndMerge
         public String[] dwgTreeName;
         private void generateDWGNames() // It is Behpoo Tailored
         {
+            // Generate Tree Name
+
+            // Generate DWG Names
             dwgName = new ArrayList();
             foreach (KeyValuePair<string, Item> kv in pathItemMap)
             {
@@ -123,6 +126,7 @@ namespace SWPrintAndMerge
         {
             int errors = 0, warnings = 0;
             // Extract DWG files 
+            generateDWGNames();
             Console.WriteLine("Finding All Available Drawings...");
             IEdmVault7 vault = new EdmVault5();
             if (!vault.IsLoggedIn)
@@ -139,7 +143,6 @@ namespace SWPrintAndMerge
             }
             ArrayList pdfs = new ArrayList();
             IEdmFolder5 root = vault.RootFolder;
-            generateDWGNames();
             dwgPath = new string[dwgName.Count];
             TraverseFolder(root);
             Console.WriteLine("All available drawing has been extracted.");
