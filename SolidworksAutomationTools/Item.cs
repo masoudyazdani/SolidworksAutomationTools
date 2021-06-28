@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWPrintAndMerge
+namespace SolidworksAutomationTools
 {
     public class Item
     {
-        public int totalQty;
+        public int totalQty;   
         public string partNo;
         public string path;
 

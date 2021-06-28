@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SWPrintAndMerge
+namespace SolidworksAutomationTools
 {
     public partial class Form1 : Form
     {
@@ -200,5 +200,14 @@ namespace SWPrintAndMerge
             }
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mainAssembly_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

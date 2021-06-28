@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SWPrintAndMerge
+namespace SolidworksAutomationTools
 {
     class Run
     {
@@ -14,7 +14,7 @@ namespace SWPrintAndMerge
         public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
-            Application.Run(new Form1());
+            Application.Run(new ConfigurationBuilder());
         }
 
     }

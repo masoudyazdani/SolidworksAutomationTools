@@ -10,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SWPrintAndMerge
+namespace SolidworksAutomationTools
 {
 
     public partial class SolidworksFactory
