@@ -1,6 +1,8 @@
 ﻿using EPDM.Interop.epdm;
 using iText.Kernel.Pdf;
 using iText.Kernel.Utils;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -15,18 +17,18 @@ namespace SolidworksAutomationTools
 
     public partial class SolidworksFactory
     {
-        private ArrayList dwgName;
+        public ArrayList dwgName;
+        public bool[] isAvailable; 
         public String[] dwgPath;
-        public String[] dwgTreeName;
-        private void generateDWGNames() // It is Behpoo Tailored
+//        public String[] dwgTreeName;
+        public void generateDWGNames() // It is Behpoo Tailored
         {
-            // Generate Tree Name
-
             // Generate DWG Names
             dwgName = new ArrayList();
             foreach (KeyValuePair<string, Item> kv in pathItemMap)
             {
-                string d  = Path.GetFileNameWithoutExtension(kv.Key);
+                string d  = Path.GetFileNameWithoutExtension(kv.Key).ToUpper();
+                //Console.WriteLine(d + "is detected!");
                 if (d.StartsWith("P"))
                 {
                     d = "D" + d.Substring(1);
@@ -40,7 +42,11 @@ namespace SolidworksAutomationTools
                     d = "";
                 }
                 dwgName.Add(d);
+                //Console.WriteLine(d + " is ADDED.");
             }
+            isAvailable = new bool[dwgName.Count];
+            for (int i = 0; i < isAvailable.Length; i++)
+                isAvailable[i] = false;
         }
 
         private void TraverseFolder(IEdmFolder5 CurFolder)
@@ -65,6 +71,8 @@ namespace SolidworksAutomationTools
 
                     if (dwgName.Contains(fileName2))
                     {
+                        if (isAvailable != null)
+                            isAvailable[dwgName.IndexOf(fileName2)] = true;
                         dwgPath[dwgName.IndexOf(fileName2)] = CurFolder.LocalPath + "\\" + fileName;
                     }
                 }
@@ -89,35 +97,37 @@ namespace SolidworksAutomationTools
         public bool MergePDFs(IEnumerable fileNames, string targetPdf)
         {
             bool merged = true;
-            PdfDocument document = new PdfDocument(new PdfWriter(targetPdf));
-            PdfMerger merger = new PdfMerger(document);
-            try
+            FileStream stream = new FileStream(targetPdf, FileMode.Create);
+            Document document = new Document();
+            PdfCopy pdf = new PdfCopy(document, stream);
+            document.Open();
+            iTextSharp.text.pdf.PdfReader reader = null;
+            foreach (string file in fileNames)
             {
-                foreach (string file in fileNames)
+                try
                 {
-                    PdfDocument doc = new PdfDocument(new PdfReader(file));
-                    merger.Merge(doc, 1, doc.GetNumberOfPages());
-                    doc.Close();
+                    reader = new iTextSharp.text.pdf.PdfReader(file);
+                    pdf.AddDocument(reader);
+                    reader.Close();
                 }
-            }
-            catch (Exception)
-            {
-                merged = false;
-            }
-            finally
-            {
-                if (document != null)
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        document.Close();
-                    }
-                    catch (IOException)
-                    {
-                        Console.WriteLine("There is no file to bundle.");
-                    }
+                    merged = false;
+                    Console.WriteLine("failed to bundle " + file);
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }                
+            if (document != null)
+            {
+                try
+                {
+                    document.Close();
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("There is no file to bundle.");
+                }
 
-                }
             }
             return merged;
         }
@@ -126,7 +136,6 @@ namespace SolidworksAutomationTools
         {
             int errors = 0, warnings = 0;
             // Extract DWG files 
-            generateDWGNames();
             Console.WriteLine("Finding All Available Drawings...");
             IEdmVault7 vault = new EdmVault5();
             if (!vault.IsLoggedIn)
@@ -145,6 +154,14 @@ namespace SolidworksAutomationTools
             IEdmFolder5 root = vault.RootFolder;
             dwgPath = new string[dwgName.Count];
             TraverseFolder(root);
+            if (isAvailable != null)
+                for (int i = 0; i < dwgName.Count; i++)
+                {
+                    if (!isAvailable[i])
+                    {
+                        Console.WriteLine("Drawing for " + dwgName[i] + " is not avialable.");
+                    }
+                }
             Console.WriteLine("All available drawing has been extracted.");
             // Save To PDF
             for (int i = 0; i < dwgName.Count; i++)
@@ -152,12 +169,7 @@ namespace SolidworksAutomationTools
                 String d = dwgPath[i];
                 if (d == null)
                     continue;
-                // Handle Directory and File Existance
-                if (!Directory.Exists(outputPath + "\\" + Path.GetDirectoryName(dwgTreeName[i])))
-                {
-                    Directory.CreateDirectory(outputPath + "\\" + Path.GetDirectoryName(dwgTreeName[i]));
-                }
-                string pdfPath = outputPath + "\\" + dwgTreeName[i] + ".pdf";
+                string pdfPath = outputPath + "\\" + dwgName[i] + ".pdf";
                 pdfs.Add(pdfPath);
                 if (File.Exists(pdfPath) && ignore)
                 {
@@ -185,16 +197,18 @@ namespace SolidworksAutomationTools
             return pdfs;
         }
 
-        public static ArrayList ExtractPDFs(string path, string[] dwgName)
+        public static ArrayList ExtractPDFs(string path, ArrayList dwgName)
         {
             ArrayList pdfs = new ArrayList();
-            for (int i = 0; i < dwgName.Length; i++)
+            for (int i = 0; i < dwgName.Count; i++)
             {
                 if (dwgName[i] == null)
                     continue;
                 string file = path + "\\" + dwgName[i] + ".pdf";
                 if (File.Exists(file))
                     pdfs.Add(file);
+                else
+                    Console.WriteLine(file + " does not exist.");
             }
             return pdfs;
         }

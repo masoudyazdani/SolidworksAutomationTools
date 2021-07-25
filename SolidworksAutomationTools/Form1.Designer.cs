@@ -36,21 +36,21 @@
             this.bomAssemblySelect = new System.Windows.Forms.Button();
             this.printBtn = new System.Windows.Forms.Button();
             this.printChkbox = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.ignorePrinterFileChkbox = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.outputFolder = new System.Windows.Forms.TextBox();
             this.outputFolderSelectBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.vaultList = new System.Windows.Forms.ListBox();
-            this.includePictureChk = new System.Windows.Forms.CheckBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.treeUsagelbl = new System.Windows.Forms.Label();
             this.bundlePDFsChkbox = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.includePictureChk = new System.Windows.Forms.CheckBox();
             this.generateBOMChkbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -63,6 +63,7 @@
             this.selectMainAssembly.TabIndex = 0;
             this.selectMainAssembly.Text = "Select Main Assembly";
             this.selectMainAssembly.UseVisualStyleBackColor = true;
+            this.selectMainAssembly.Visible = false;
             this.selectMainAssembly.Click += new System.EventHandler(this.selectMainAssembly_Click);
             // 
             // label1
@@ -73,6 +74,7 @@
             this.label1.Size = new System.Drawing.Size(77, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Main Assembly";
+            this.label1.Visible = false;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // mainAssembly
@@ -82,6 +84,7 @@
             this.mainAssembly.ReadOnly = true;
             this.mainAssembly.Size = new System.Drawing.Size(362, 20);
             this.mainAssembly.TabIndex = 2;
+            this.mainAssembly.Visible = false;
             this.mainAssembly.TextChanged += new System.EventHandler(this.mainAssembly_TextChanged);
             // 
             // label2
@@ -132,16 +135,6 @@
             this.printChkbox.UseVisualStyleBackColor = true;
             this.printChkbox.CheckedChanged += new System.EventHandler(this.print_CheckedChanged);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(142, 344);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(138, 17);
-            this.checkBox2.TabIndex = 8;
-            this.checkBox2.Text = "Add Where Used Table";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
             // ignorePrinterFileChkbox
             // 
             this.ignorePrinterFileChkbox.AutoSize = true;
@@ -152,16 +145,6 @@
             this.ignorePrinterFileChkbox.TabIndex = 9;
             this.ignorePrinterFileChkbox.Text = "Ignore Printed Files";
             this.ignorePrinterFileChkbox.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(142, 318);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(111, 17);
-            this.checkBox4.TabIndex = 10;
-            this.checkBox4.Text = "Update Properties";
-            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // outputFolder
             // 
@@ -206,17 +189,6 @@
             this.vaultList.Name = "vaultList";
             this.vaultList.Size = new System.Drawing.Size(106, 173);
             this.vaultList.TabIndex = 17;
-            // 
-            // includePictureChk
-            // 
-            this.includePictureChk.AutoSize = true;
-            this.includePictureChk.Enabled = false;
-            this.includePictureChk.Location = new System.Drawing.Point(142, 398);
-            this.includePictureChk.Name = "includePictureChk";
-            this.includePictureChk.Size = new System.Drawing.Size(129, 17);
-            this.includePictureChk.TabIndex = 19;
-            this.includePictureChk.Text = "Include Parts Pictures";
-            this.includePictureChk.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -281,6 +253,40 @@
             this.bundlePDFsChkbox.Text = "Bundle Printed Files";
             this.bundlePDFsChkbox.UseVisualStyleBackColor = true;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(142, 344);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(138, 17);
+            this.checkBox2.TabIndex = 8;
+            this.checkBox2.Text = "Add Where Used Table";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Visible = false;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(142, 318);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(111, 17);
+            this.checkBox4.TabIndex = 10;
+            this.checkBox4.Text = "Update Properties";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.Visible = false;
+            // 
+            // includePictureChk
+            // 
+            this.includePictureChk.AutoSize = true;
+            this.includePictureChk.Enabled = false;
+            this.includePictureChk.Location = new System.Drawing.Point(142, 398);
+            this.includePictureChk.Name = "includePictureChk";
+            this.includePictureChk.Size = new System.Drawing.Size(129, 17);
+            this.includePictureChk.TabIndex = 19;
+            this.includePictureChk.Text = "Include Parts Pictures";
+            this.includePictureChk.UseVisualStyleBackColor = true;
+            this.includePictureChk.Visible = false;
+            // 
             // generateBOMChkbox
             // 
             this.generateBOMChkbox.AutoSize = true;
@@ -290,6 +296,7 @@
             this.generateBOMChkbox.TabIndex = 23;
             this.generateBOMChkbox.Text = "Generate BOM";
             this.generateBOMChkbox.UseVisualStyleBackColor = true;
+            this.generateBOMChkbox.Visible = false;
             this.generateBOMChkbox.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // Form1
@@ -337,21 +344,21 @@
         private System.Windows.Forms.Button bomAssemblySelect;
         private System.Windows.Forms.Button printBtn;
         private System.Windows.Forms.CheckBox printChkbox;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox ignorePrinterFileChkbox;
-        private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.TextBox outputFolder;
         private System.Windows.Forms.Button outputFolderSelectBtn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ListBox vaultList;
-        private System.Windows.Forms.CheckBox includePictureChk;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Label treeUsagelbl;
         private System.Windows.Forms.CheckBox bundlePDFsChkbox;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox includePictureChk;
         private System.Windows.Forms.CheckBox generateBOMChkbox;
     }
 }

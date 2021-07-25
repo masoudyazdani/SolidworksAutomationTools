@@ -83,6 +83,16 @@ namespace SolidworksAutomationTools
 //            AllocConsole();
         }
 
+        private void configAsmTxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         //[DllImport("kernel32.dll", SetLastError = true)]
         //[return: MarshalAs(UnmanagedType.Bool)]
         //static extern bool AllocConsole();

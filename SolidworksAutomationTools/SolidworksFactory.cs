@@ -62,6 +62,7 @@ namespace SolidworksAutomationTools
 
         private BomTableAnnotation generateBOMTable(string modelPath, swBomType_e bomType)
         {
+            Console.WriteLine("Generating BOM Table...");
             View view = createViewForModel(modelPath);
             string dir = AppContext.BaseDirectory;
             BomTableAnnotation bomTable = view.InsertBomTable4(false,
@@ -74,6 +75,7 @@ namespace SolidworksAutomationTools
             false,
             (int)swNumberingType_e.swNumberingType_Detailed,
             false);
+            Console.WriteLine("BOM Table Generated Successfully.");
             return bomTable;
         }
 
@@ -83,7 +85,8 @@ namespace SolidworksAutomationTools
         }
 
         public void extractReferences(string modelPath)
-        {            
+        {
+            itemOrderMap.Clear();
             TableAnnotation ann = (TableAnnotation)bomAssDetailedBOMTable;
             itemOrderMap.Add("", modelPath.ToLower());
             for (int i = 2; i < ann.RowCount; i++)
@@ -132,7 +135,7 @@ namespace SolidworksAutomationTools
                     else
                     {
                         item = pathItemMap[filePath];
-                        item.referenceQty.Add(parent,qty);
+                        //item.referenceQty.Add(parent,qty);
                     }
 
                     itemOrderMap.Add(itemNo, item.path);

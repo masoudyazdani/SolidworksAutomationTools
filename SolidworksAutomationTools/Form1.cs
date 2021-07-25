@@ -81,28 +81,44 @@ namespace SolidworksAutomationTools
             string vault = vaultList.Text;
             MethodInvoker myProcessStarter = new MethodInvoker(() =>
             {
-                if (!checkForOutputFolder() || !checkForBOMTables())
+                if (!useExternalTreeFile)
                 {
-                    return;
-                }
-                // Extract References
-                if (!useExternalTreeFile && !treeIsGenerated)
-                    swAppFactory.extractReferences(mainAssembly.Text);
-
-                treeIsGenerated = true;
-                dataGridView1.Invoke((MethodInvoker)delegate
-                {
-                    foreach (KeyValuePair<string, string> kv in swAppFactory.itemOrderMap)
+                    if (!checkForOutputFolder() || !checkForBOMTables())
                     {
-                        if (swAppFactory.pathItemMap.ContainsKey(kv.Value))
-                        {
-                            Item item = swAppFactory.pathItemMap[kv.Value];
-                            dataGridView1.Rows.Add(kv.Key, item.partNo, item.totalQty);
-                        }
+                        return;
                     }
-                });
-                // Print All Drawing Files Based on selected configuration
-                ArrayList printedFiles = null;
+                    // Extract References
+                    Console.WriteLine("Extracting References...");
+                    if (!useExternalTreeFile && !treeIsGenerated)
+                        swAppFactory.extractReferences(mainAssembly.Text);
+                    Console.WriteLine("References Extracted Succesfully");
+                    treeIsGenerated = true;
+                    dataGridView1.Invoke((MethodInvoker)delegate
+                    {
+                        foreach (KeyValuePair<string, string> kv in swAppFactory.itemOrderMap)
+                        {
+                            if (swAppFactory.pathItemMap.ContainsKey(kv.Value))
+                            {
+                                Item item = swAppFactory.pathItemMap[kv.Value];
+                                dataGridView1.Rows.Add(kv.Key, item.partNo, item.totalQty);
+                            }
+                        }
+                    });
+                    //
+                    swAppFactory.generateDWGNames();
+
+                    string file = outputFolder.Text + "//tree.txt";
+                    System.IO.StreamWriter writer = new System.IO.StreamWriter(file);
+                    foreach (string d in swAppFactory.dwgName)
+                    {
+                        if (d != null || d != "")
+                            writer.WriteLine(d);
+                    }
+                    writer.Close();
+                }
+
+                    // Print All Drawing Files Based on selected configuration
+                    ArrayList printedFiles = null;
                 if (printChkbox.Checked)
                 {
                     printedFiles = swAppFactory.Print(vault, outputFolder.Text, ignorePrinterFileChkbox.Checked);
@@ -110,13 +126,15 @@ namespace SolidworksAutomationTools
 
                 if (bundlePDFsChkbox.Checked)
                 {
+                    Console.WriteLine("Generating Bundle.");
                     if (printedFiles == null)
                     {
-                        printedFiles = SolidworksFactory.ExtractPDFs(outputFolder.Text, swAppFactory.dwgTreeName);
+                        printedFiles = SolidworksFactory.ExtractPDFs(outputFolder.Text, swAppFactory.dwgName);
                     }
                     swAppFactory.MergePDFs(printedFiles, outputFolder.Text + "\\Bundle.pdf");
+                    Console.WriteLine("Bundle Generated Successfully.");
                 }
-
+                
                 // Generate BOMs
                 if (generateBOMChkbox.Checked)
                 {
@@ -138,15 +156,14 @@ namespace SolidworksAutomationTools
             string line;
             if (File.Exists(file))
             {
+                swAppFactory.dwgName = new ArrayList();
                 System.IO.StreamReader reader = new System.IO.StreamReader(file);
                 while ((line = reader.ReadLine()) != null)
                 {
-                    //                    dwgNames.Add(line);
+                    swAppFactory.dwgName.Add(line);
                 }
                 reader.Close();
-                //              p.dwgTreeName = (string[])dwgNames.ToArray(typeof(string));
                 useExternalTreeFile = true;
-
             }
             else
             {
