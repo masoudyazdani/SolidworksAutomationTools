@@ -13,11 +13,11 @@ using System.Windows.Forms;
 
 namespace SolidworksAutomationTools
 {
-    public partial class Form3 : Form
+    public partial class AutoCollapse : Form
     {
         private SldWorks swApp;
         private HashSet<string> collapseItems;
-        public Form3()
+        public AutoCollapse()
         {
             InitializeComponent();
         }

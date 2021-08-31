@@ -7,12 +7,12 @@ using System.Windows.Forms;
 
 namespace SolidworksAutomationTools
 {
-    public partial class Form1 : Form
+    public partial class Printer : Form
     {
         private SolidworksFactory swAppFactory;
         private bool useExternalTreeFile = false;
         private bool treeIsGenerated = false;
-        public Form1()
+        public Printer()
         {
             InitializeComponent();
         }

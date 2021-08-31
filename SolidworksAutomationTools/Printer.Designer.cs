@@ -1,6 +1,6 @@
 ﻿namespace SolidworksAutomationTools
 {
-    partial class Form1
+    partial class Printer
     {
         /// <summary>
         /// Required designer variable.

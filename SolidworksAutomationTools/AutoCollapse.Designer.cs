@@ -1,6 +1,6 @@
 ﻿namespace SolidworksAutomationTools
 {
-    partial class Form3
+    partial class AutoCollapse
     {
         /// <summary>
         /// Required designer variable.
