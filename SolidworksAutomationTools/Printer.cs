@@ -9,7 +9,6 @@ namespace SolidworksAutomationTools
 {
     public partial class Printer : Form
     {
-        private SolidworksFactory swAppFactory;
         private bool useExternalTreeFile = false;
         private bool treeIsGenerated = false;
         public Printer()
@@ -29,6 +28,7 @@ namespace SolidworksAutomationTools
 
         private bool checkForBOMTables()
         {
+            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
             if (bomAssemblyTxt.Text == "" && mainAssembly.Text == "")
             {
                 MessageBox.Show("BOM Assembly Path and Main Assembly Path is not valid.", "Path Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -44,6 +44,8 @@ namespace SolidworksAutomationTools
 
         private void selectMainAssembly_Click(object sender, EventArgs e)
         {
+            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
+
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "Solidworks Assembly files (*.SLDASM)|*.SLDASM";
             fileDialog.Title = "Select Assembly";
@@ -60,6 +62,8 @@ namespace SolidworksAutomationTools
 
         private void toPrintSelect_Click(object sender, EventArgs e)
         {
+            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
+
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "Solidworks Assembly files (*.SLDASM)|*.SLDASM";
             fileDialog.Title = "Select Assembly";
@@ -81,6 +85,8 @@ namespace SolidworksAutomationTools
             string vault = vaultList.Text;
             MethodInvoker myProcessStarter = new MethodInvoker(() =>
             {
+                SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
+
                 if (!useExternalTreeFile)
                 {
                     if (!checkForOutputFolder() || !checkForBOMTables())
@@ -117,8 +123,8 @@ namespace SolidworksAutomationTools
                     writer.Close();
                 }
 
-                    // Print All Drawing Files Based on selected configuration
-                    ArrayList printedFiles = null;
+                // Print All Drawing Files Based on selected configuration
+                ArrayList printedFiles = null;
                 if (printChkbox.Checked)
                 {
                     printedFiles = swAppFactory.Print(vault, outputFolder.Text, ignorePrinterFileChkbox.Checked);
@@ -126,7 +132,7 @@ namespace SolidworksAutomationTools
 
                 if (bundlePDFsChkbox.Checked)
                 {
-                    Console.WriteLine("Generating Bundle.");
+                    Console.WriteLine("Generating Bundle...");
                     if (printedFiles == null)
                     {
                         printedFiles = SolidworksFactory.ExtractPDFs(outputFolder.Text, swAppFactory.dwgName);
@@ -146,6 +152,8 @@ namespace SolidworksAutomationTools
 
         private void outputFolderSelectBtn_Click(object sender, EventArgs e)
         {
+            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
+
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)
@@ -176,7 +184,6 @@ namespace SolidworksAutomationTools
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            swAppFactory = new SolidworksFactory();
             EdmViewInfo[] views;
 
             IEdmVault8 vault = (IEdmVault8)new EdmVault5();
@@ -185,6 +192,7 @@ namespace SolidworksAutomationTools
             {
                 vaultList.Items.Add(v.mbsVaultName);
             }
+            if (views.Length > 0)
             vaultList.SelectedIndex = 0;
 
         }
@@ -223,6 +231,16 @@ namespace SolidworksAutomationTools
         }
 
         private void mainAssembly_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void outputFolder_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }

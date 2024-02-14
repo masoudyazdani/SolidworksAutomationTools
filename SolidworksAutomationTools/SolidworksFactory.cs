@@ -1,6 +1,8 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using EPDM.Interop.epdm;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,20 +13,27 @@ namespace SolidworksAutomationTools
         private static string DRAWING_TEMPLATE = "temp.slddrw";
         private static string BOM_TEMPLATE = "bom.sldbomtbt";
         private static string USE_TABLE_TEMPLATE = "usetable.sldtbt";
-        private static string QTY_PROPERTY_NAME = "Qty";
-        private static string WEIGHT_PROPERTY_NAME = "Weight";
-        private static string MATERIAL_PROPERTY_NAME = "Material";
 
 
-        private SldWorks swApp = null;        
+        private SldWorks swApp = null;
 
         public IDictionary<string, string> itemOrderMap = new Dictionary<string, string>();
         public IDictionary<string, Item> pathItemMap = new Dictionary<string, Item>();
         private DrawingDoc doc1;
         private BomTableAnnotation bomAssDetailedBOMTable;
         private BomTableAnnotation mainAssBOMTable;
+        private static SolidworksFactory factory;
 
-        public SolidworksFactory()
+        public static SolidworksFactory getFactory()
+        {
+            if (factory == null)
+            {
+                factory = new SolidworksFactory();
+            }
+            return factory;
+        }
+
+        private SolidworksFactory()
         {
             Console.WriteLine("Initializing Solidworks...");
             swApp = new SldWorks();
@@ -128,7 +137,7 @@ namespace SolidworksAutomationTools
                     {
                         item = new Item();
                         item.referenceQty.Add(parent, qty);
-                        item.partNo = partNo ;
+                        item.partNo = partNo;
                         item.path = filePath;
                         pathItemMap.Add(filePath, item);
                     }
@@ -154,9 +163,10 @@ namespace SolidworksAutomationTools
         public int calculateTotalQty(Item i)
         {
             int qty = 0;
-            foreach(string p in i.referenceQty.Keys)
+            foreach (string p in i.referenceQty.Keys)
             {
-                if (p != "") {
+                if (p != "")
+                {
                     string parentPath = itemOrderMap[p];
                     Item parent = pathItemMap[parentPath];
                     qty += calculateTotalQty(parent) * i.referenceQty[p];
@@ -174,10 +184,10 @@ namespace SolidworksAutomationTools
             string dir = AppContext.BaseDirectory;
 
             doc1.SetCurrentLayer("Table");
-            TableAnnotation tbl = doc1.InsertTableAnnotation2(false, 
-                0.179432255418992, 
-                0.0106792013380164, 
-                (int)swBOMConfigurationAnchorType_e.swBOMConfigurationAnchor_BottomLeft, 
+            TableAnnotation tbl = doc1.InsertTableAnnotation2(false,
+                0.179432255418992,
+                0.0106792013380164,
+                (int)swBOMConfigurationAnchorType_e.swBOMConfigurationAnchor_BottomLeft,
                 dir + "\\" + USE_TABLE_TEMPLATE, 2, 1);
             foreach (string k in item.referenceQty.Keys)
             {
@@ -187,28 +197,82 @@ namespace SolidworksAutomationTools
             doc1.SetCurrentLayer("");
         }
 
-        public void updateProperies(string path)
+        //public void updateDescriptionFromConfig(string vaultName)
+        //{   IEdmBomMgr bomMgr;
+        //    IEdmBomView bomView = null;
+        //    int arrSize = 0;
+        //    EdmBomVersion[] ppoVersions = null;
+        //    int i = 0;
+        //    int j = 0;
+        //    int id = 0;
+        //    string str = "";
+        //    string verstr = "";
+        //    int verArrSize = 0;
+
+        //    foreach (string path in array){
+        //        string fileExt = Path.GetExtension(path).ToLower();
+        //        string fileName = Path.GetFileNameWithoutExtension(path).ToLower();
+        //        IEdmFolder5 folder;
+        //        var file = (IEdmFile7)vault.GetFileFromPath(path, out folder);
+        //        // Get named BOMs and their versions for the selected file
+        //        bomMgr = (IEdmBomMgr)vault.CreateUtility(EdmUtility.EdmUtil_BomMgr);
+        //        EdmBomLayout[] ppoRetLayouts = null;
+        //        EdmBomLayout ppoRetLayout = default(EdmBomLayout);
+        //        bomMgr.GetBomLayouts(out ppoRetLayouts);
+        //        i = 0;
+        //        arrSize = ppoRetLayouts.Length;
+        //        while (i < arrSize)
+        //        {
+        //            ppoRetLayout = ppoRetLayouts[i];
+        //            if (ppoRetLayout.mbsLayoutName == "BOM")
+        //            {
+        //                bomView = file.GetComputedBOM(ppoRetLayout.mbsLayoutName, file.CurrentVersion, "", (int)EdmBomFlag.EdmBf_ShowSelected);
+        //                break;
+        //            }
+        //            i = i + 1;
+        //        }
+        //        if (bomView != null)
+        //        {
+        //            string bomFile = "c:\\users\\masoud\\desktop\\SavedBOM.csv";
+        //            ((IEdmBomView3)bomView).SaveToCSV(, false);
+
+        //        }
+        //        return;
+        //        //                var variables = file.GetEnumeratorVariable();
+        //        //              object par;
+        //        //              variables.GetVar("Descriptions", "@", out par);
+        //        //                Console.WriteLine(par);
+        //    }
+        //}
+
+            public void updateProperies(string path, string[] customProperties)
         {
-            string fileExt = Path.GetExtension(path);
+            string fileExt = Path.GetExtension(path).ToLower();
             ModelDoc2 swModel = null;
             if (fileExt == ".sldprt")
+            {
                 swModel = swApp.OpenDoc(path, (int)swDocumentTypes_e.swDocPART);
-            else if  (fileExt == ".sldasm")
+            }
+            else if (fileExt == ".sldasm")
+            {
                 swModel = swApp.OpenDoc(path, (int)swDocumentTypes_e.swDocASSEMBLY);
-
-            CustomPropertyManager swCustPrpMgr = swModel.Extension.CustomPropertyManager[""];
-            swCustPrpMgr.Add3(QTY_PROPERTY_NAME, 
-                (int)swCustomInfoType_e.swCustomInfoNumber, 
-                pathItemMap[path].totalQty.ToString(), 
-                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
-            swCustPrpMgr.Add3(MATERIAL_PROPERTY_NAME, 
-                (int)swCustomInfoType_e.swCustomInfoText, 
-                "\"SW-Material\"", 
-                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
-            swCustPrpMgr.Add3(WEIGHT_PROPERTY_NAME, 
-                (int)swCustomInfoType_e.swCustomInfoText, 
-                "\"SW-Mass\"", 
-                (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+            }
+            
+            if (swModel != null)
+            {
+                CustomPropertyManager swCustPrpMgr = swModel.Extension.CustomPropertyManager[""];
+                foreach (string s in customProperties)
+                {
+                    if (s.Trim().StartsWith("#")){
+                        continue;
+                    }
+                    string[] v = s.Split(',');
+                    int res = swCustPrpMgr.Add3(v[0],
+                        int.Parse(v[1]), v[2], (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+                    Console.WriteLine("property " + v[0] + " was added with result code = " + res);
+                }
+            }
+            swModel.Save();
             swApp.CloseDoc(path);
         }
 
@@ -222,5 +286,71 @@ namespace SolidworksAutomationTools
             bomAssDetailedBOMTable.SaveAsExcel(bomPath, true, includePictures);
         }
 
+        private void TraverseFolder(ref List<string> arr, IEdmFolder5 CurFolder, string ext)
+        {
+            try
+            {
+                //Enumerate the files in the folder
+                IEdmPos5 FilePos = default(IEdmPos5);
+                FilePos = CurFolder.GetFirstFilePosition();
+                IEdmFile5 file = default(IEdmFile5);
+                while (!FilePos.IsNull)
+                {
+                    file = CurFolder.GetNextFile(FilePos);
+                    String fileName = file.Name.ToUpper();
+                    if (!fileName.EndsWith(ext.ToUpper()))
+                    {
+                        continue;
+                    }
+                    arr.Add(CurFolder.LocalPath + "\\" + fileName);
+                }
+
+                //Enumerate the sub-folders in the folder
+                IEdmPos5 FolderPos = default(IEdmPos5);
+                FolderPos = CurFolder.GetFirstSubFolderPosition();
+                while (!FolderPos.IsNull)
+                {
+                    IEdmFolder5 SubFolder = default(IEdmFolder5);
+                    SubFolder = CurFolder.GetNextSubFolder(FolderPos);
+                    TraverseFolder(ref arr, SubFolder, ext);
+                }
+
+            }
+            catch (System.Runtime.InteropServices.COMException ex)
+            {
+                System.Windows.Forms.MessageBox.Show("HRESULT = 0x" + ex.ErrorCode.ToString("X") + ex.Message);
+            }
+
+        }
+
+
+        public string[] getAllFile(string path, string extension)
+        {
+            IEdmVault7 vault = new EdmVault5();
+            EdmViewInfo[] views;
+            ((IEdmVault8)vault).GetVaultViews(out views, false);
+            foreach (EdmViewInfo v in views)
+            {
+                if (path.ToLower().StartsWith(v.mbsPath.ToLower()))
+                {
+                    try
+                    {
+                        vault.LoginAuto(v.mbsVaultName, 0);
+                    }
+                    catch (System.Runtime.InteropServices.COMException)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Vault login error");
+                        return null;
+                    }
+
+                }
+            }
+
+            IEdmFolder5 root = vault.GetFolderFromPath(path);
+            List<string> output = new List<string>();
+            TraverseFolder(ref output, root, extension);
+            return output.ToArray();
+
+        }
     }
 }

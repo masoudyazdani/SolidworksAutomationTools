@@ -14,7 +14,7 @@ namespace SolidworksAutomationTools
         public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
-            Application.Run(new PartDrawingCompare());
+            Application.Run(new Menu());
         }
 
     }

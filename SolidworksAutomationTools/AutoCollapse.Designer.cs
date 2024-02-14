@@ -101,7 +101,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Form3
+            // AutoCollapse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +113,8 @@
             this.Controls.Add(this.configAsmTxt);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.configAsmSelectBtn);
-            this.Name = "Form3";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "AutoCollapse";
             this.Text = "Auto Collapse Tool";
             this.ResumeLayout(false);
             this.PerformLayout();

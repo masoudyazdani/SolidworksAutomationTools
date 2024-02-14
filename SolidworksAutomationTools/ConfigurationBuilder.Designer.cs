@@ -102,6 +102,7 @@
             this.Controls.Add(this.configAsmTxt);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.configAsmSelectBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ConfigurationBuilder";
             this.Text = "Configuration Builder";
             this.Load += new System.EventHandler(this.Form2_Load);

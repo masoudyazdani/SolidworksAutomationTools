@@ -153,6 +153,7 @@
             this.outputFolder.ReadOnly = true;
             this.outputFolder.Size = new System.Drawing.Size(362, 20);
             this.outputFolder.TabIndex = 13;
+            this.outputFolder.TextChanged += new System.EventHandler(this.outputFolder_TextChanged);
             // 
             // outputFolderSelectBtn
             // 
@@ -172,6 +173,7 @@
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "Output Folder";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -299,7 +301,7 @@
             this.generateBOMChkbox.Visible = false;
             this.generateBOMChkbox.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
-            // Form1
+            // Printer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -325,8 +327,8 @@
             this.Controls.Add(this.mainAssembly);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.selectMainAssembly);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Printer";
+            this.Text = "Solidworks Drawing Bundler";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
