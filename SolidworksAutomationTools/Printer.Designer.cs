@@ -98,6 +98,8 @@
             // 
             // bomAssemblyTxt
             // 
+            this.bomAssemblyTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.bomAssemblyTxt.Location = new System.Drawing.Point(105, 108);
             this.bomAssemblyTxt.Name = "bomAssemblyTxt";
             this.bomAssemblyTxt.ReadOnly = true;
@@ -106,6 +108,7 @@
             // 
             // bomAssemblySelect
             // 
+            this.bomAssemblySelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bomAssemblySelect.Location = new System.Drawing.Point(486, 93);
             this.bomAssemblySelect.Name = "bomAssemblySelect";
             this.bomAssemblySelect.Size = new System.Drawing.Size(155, 50);
@@ -148,15 +151,17 @@
             // 
             // outputFolder
             // 
+            this.outputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.outputFolder.Location = new System.Drawing.Point(105, 185);
             this.outputFolder.Name = "outputFolder";
-            this.outputFolder.ReadOnly = true;
             this.outputFolder.Size = new System.Drawing.Size(362, 20);
             this.outputFolder.TabIndex = 13;
             this.outputFolder.TextChanged += new System.EventHandler(this.outputFolder_TextChanged);
             // 
             // outputFolderSelectBtn
             // 
+            this.outputFolderSelectBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.outputFolderSelectBtn.Location = new System.Drawing.Point(486, 170);
             this.outputFolderSelectBtn.Name = "outputFolderSelectBtn";
             this.outputFolderSelectBtn.Size = new System.Drawing.Size(155, 50);
@@ -196,6 +201,9 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -207,6 +215,7 @@
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.Size = new System.Drawing.Size(326, 337);
             this.dataGridView1.TabIndex = 20;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 

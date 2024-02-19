@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SolidworksAutomationTools
@@ -122,29 +123,44 @@ namespace SolidworksAutomationTools
                     }
                     writer.Close();
                 }
-
-                // Print All Drawing Files Based on selected configuration
-                ArrayList printedFiles = null;
-                if (printChkbox.Checked)
+                var directories = Directory.GetDirectories(outputFolder.Text).Append(outputFolder.Text);
+                foreach (var dir in directories)
                 {
-                    printedFiles = swAppFactory.Print(vault, outputFolder.Text, ignorePrinterFileChkbox.Checked);
-                }
-
-                if (bundlePDFsChkbox.Checked)
-                {
-                    Console.WriteLine("Generating Bundle...");
-                    if (printedFiles == null)
+                    string file = dir + "//tree.txt";
+                    string line;
+                    if (File.Exists(file))
                     {
-                        printedFiles = SolidworksFactory.ExtractPDFs(outputFolder.Text, swAppFactory.dwgName);
+                        swAppFactory.dwgName = new ArrayList();
+                        System.IO.StreamReader reader = new System.IO.StreamReader(file);
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            swAppFactory.dwgName.Add(line);
+                        }
+                        reader.Close();
+                        // Print All Drawing Files Based on selected configuration
+                        ArrayList printedFiles = null;
+                        if (printChkbox.Checked)
+                        {
+                            printedFiles = swAppFactory.Print(vault, dir, ignorePrinterFileChkbox.Checked);
+                        }
+
+                        if (bundlePDFsChkbox.Checked)
+                        {
+                            Console.WriteLine("Generating Bundle...");
+                            if (printedFiles == null)
+                            {
+                                printedFiles = SolidworksFactory.ExtractPDFs(dir, swAppFactory.dwgName);
+                            }
+                            swAppFactory.MergePDFs(printedFiles, dir + "\\Bundle.pdf");
+                            Console.WriteLine("Bundle Generated Successfully.");
+                        }
+
+                        // Generate BOMs
+                        if (generateBOMChkbox.Checked)
+                        {
+                            swAppFactory.saveExcel(dir + "\\bom.xlsx", includePictureChk.Checked);
+                        }
                     }
-                    swAppFactory.MergePDFs(printedFiles, outputFolder.Text + "\\Bundle.pdf");
-                    Console.WriteLine("Bundle Generated Successfully.");
-                }
-                
-                // Generate BOMs
-                if (generateBOMChkbox.Checked)
-                {
-                    swAppFactory.saveExcel(outputFolder.Text + "\\bom.xlsx", includePictureChk.Checked);
                 }
             });
             myProcessStarter.BeginInvoke(null, null);
@@ -152,33 +168,12 @@ namespace SolidworksAutomationTools
 
         private void outputFolderSelectBtn_Click(object sender, EventArgs e)
         {
-            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
-
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)
             {
                 outputFolder.Text = fbd.SelectedPath;
             }
-            string file = outputFolder.Text + "//tree.txt";
-            string line;
-            if (File.Exists(file))
-            {
-                swAppFactory.dwgName = new ArrayList();
-                System.IO.StreamReader reader = new System.IO.StreamReader(file);
-                while ((line = reader.ReadLine()) != null)
-                {
-                    swAppFactory.dwgName.Add(line);
-                }
-                reader.Close();
-                useExternalTreeFile = true;
-            }
-            else
-            {
-                useExternalTreeFile = false;
-            }
-            treeUsagelbl.Visible = useExternalTreeFile;
-            // Populate Items in Solidworks Factory
 
         }
 
@@ -193,7 +188,7 @@ namespace SolidworksAutomationTools
                 vaultList.Items.Add(v.mbsVaultName);
             }
             if (views.Length > 0)
-            vaultList.SelectedIndex = 0;
+                vaultList.SelectedIndex = 0;
 
         }
 
@@ -237,10 +232,36 @@ namespace SolidworksAutomationTools
 
         private void outputFolder_TextChanged(object sender, EventArgs e)
         {
+            SolidworksFactory swAppFactory = SolidworksFactory.getFactory();
+            useExternalTreeFile = false;
+            try
+            {
+                var directories = Directory.GetDirectories(outputFolder.Text).Append(outputFolder.Text);
+                foreach (var dir in directories)
+                {
+                    string file = dir + "//tree.txt";
+                    string line;
+                    if (File.Exists(file))
+                    {
+                        useExternalTreeFile = true;
+                    }
+                }
+                treeUsagelbl.Visible = useExternalTreeFile;
+                // Populate Items in Solidworks Factory
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return;
+            }
 
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
